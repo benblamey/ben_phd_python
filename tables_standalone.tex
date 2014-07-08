@@ -1,0 +1,44 @@
+\documentclass{article}
+
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{booktabs}
+
+\setcounter{totalnumber}{10} %override rule about many tables on one page.
+
+
+\begin{document}
+
+
+\section*{Chapter 4 -- SAESNEG}
+
+
+\input{table_gt_summary.tex}
+
+\vspace{-1em}
+
+\input{table_gt_comp_by_type.tex}
+
+
+\vspace{-1em}
+
+\input{table_datums_by_type.tex}
+
+\vspace{-1em}
+
+\clearpage
+\section*{Chapter 6 -- Phase B}
+
+\input{table_intra_xtype_cluster.tex}
+\vspace{-1em}
+
+\input{table_inter_xtype_cluster.tex}
+\vspace{-1em}
+
+\input{table_all_xtype_cluster.tex}
+\vspace{-1em}
+
+
+\input{table_pair_summary.tex}
+
+\end{document}
