@@ -8,7 +8,6 @@ def do_descriptiveStats():
 
     # a table of the different kinds of datums was exported to CSV (for all user lifestories)
     datum_types = {}
-    data_dir = 'C:/work/data/output/'
 
     # Two strategies for life story selection:
     #- Use the latest life story always - recommended for most things - maximizes Ground truth data which "exists" in the life stories (38 missing vs. 104)
@@ -23,19 +22,13 @@ def do_descriptiveStats():
 
     # In[3]:
 
-    import pymongo
-    import pprint #pretty print nested structures
-    from itertools import chain
+
+    
     pp = pprint.PrettyPrinter(indent=4)
 
-    from collections import Counter
-    import sys
-    sys.path.append('C:/work/code/3rd_Ben/matrix2latexPython/matrix2latex')
-    import numpy
 
     client = pymongo.MongoClient("localhost", 27017) # previously using 1234 for tunnel.
     users = client.SocialWorld.users
-
 
     data = []
     excluded_datums = 0
@@ -122,24 +115,9 @@ def do_descriptiveStats():
     print("#### Excluded Datums: " + str(excluded_datums) + "####") # under latest=38,gold_or_latest=?
     pp.pprint(table_data)
 
-    #pp.pprint(data)                    
-
-
-
-
-
-
-    # In[3]:
-
-
-
-
     # Generate Data for Bar Chart
-
     # Frequency of Number of Ground Truth Event Clusters per User
     # =========
-
-    # In[4]:
 
     gteventsizes = number_of_gt_events_per_user
 
@@ -151,18 +129,11 @@ def do_descriptiveStats():
         gt_events_per_user_graph_data[x-1] = f
     print gt_events_per_user_graph_data  
 
-    #import numpy
-    #xlocations = numpy.array(range(len(gteventsizes)))+0.5
-    #xlocations = xlocations+ width/2 * 2
-    #print xlocations
-
     width = 1
 
     xlabels = range(0,max(gteventsizes)+2, 2)
     xlabels_positions = [x + 0.5 for x in xlabels]
     xminorformatter = FixedLocator([x - 0.5 for x in xlabels])
-
-    #print xlocations
 
     bar(xvalues, gt_events_per_user_graph_data, width=width, linewidth=1)
     yticks(range(0, max(gt_events_per_user_graph_data)+2))
@@ -185,12 +156,8 @@ def do_descriptiveStats():
     # Frequency of Number of Datums per Ground Truth Event Cluster
     # ============================================================
 
-    # In[5]:
-
     gtecsizes = number_of_datums_per_gt_event_cluster
 
-
-    from collections import Counter
     xvalues = range(1,max(gtecsizes)+1)
     datums_per_event_cluster_graph_data = [0] * max(gtecsizes)
     print xvalues
@@ -359,8 +326,9 @@ def do_descriptiveStats():
 
     # Postive/Intra Cases
 
-    from sets import Set
     cross_types_matrix = Counter()
+    inter_cross_types_matrix = Counter()
+
     all_types = Set()
 
     for user in data:
@@ -381,26 +349,15 @@ def do_descriptiveStats():
                     types = tuple(types)
                     cross_types_matrix[types] += 1
 
-    pp.pprint (cross_types_matrix)
-    print (all_types)
-
-
-
-    # In[11]:
-
     # Negative/Inter Cases
-
-    inter_cross_types_matrix = Counter()
-
-
     for user in data:
-        for cluster_x in user:
-            for cluster_y in user:
-                if (cluster_x == cluster_y): # this works.
+        for gtec in user:
+            for x in user:
+                if (gtec == x): # this works.
                     continue
-                for x_datum in cluster_x:
+                for x_datum in gtec:
                     x_type = x_datum[1]
-                    for y_datum in cluster_y:
+                    for y_datum in x:
                         y_type = y_datum[1]
                         if (x_type > y_type):
                             continue
@@ -409,6 +366,8 @@ def do_descriptiveStats():
                         types = tuple(types)
                         inter_cross_types_matrix[types] += 1
 
+    pp.pprint (cross_types_matrix)
+    print (all_types)
 
 
 

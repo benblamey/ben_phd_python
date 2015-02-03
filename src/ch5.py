@@ -23,8 +23,6 @@ def do_ch5():
     print Counter([x[IndexDataKind] for x in rows])
     #])
 
-    total_gt_datums = 161
-
     print len(rows)
 
     annoKindLabels = {

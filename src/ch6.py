@@ -1,9 +1,6 @@
 from core import *
 
-headers = ['userId', 
-#'isIntra',  <<< NEED TO RE-ENABLE!!!
-'leftDatumID','rightDatumID','leftDataType','rightDataType','featureID','svmValue','message',
-]
+headers = ['userId', 'isIntra', 'leftDatumID','rightDatumID','leftDataType','rightDataType','featureID','svmValue','message',]
 
 def do_ch6():
 
@@ -18,30 +15,24 @@ def do_ch6():
     #remove the header row
     rows.pop(0)
 
-
-
-    newRows = []
     rows = [ { headers[i] : row[i] 
         for i in range(len(row)-1) } 
         for row in rows]
+        
     for row in rows:
         row['svmValue'] = float(row['svmValue'])
 
     # for the time being, invent a intra-/not intra label.
-    for row in rows:
-        row['isIntra'] = random.choice([True, False, False, False])
+    #for row in rows:
+    #    row['isIntra'] = random.choice([True, False, False, False])
 
     print 'Example row:'
     print rows[0]
 
 
-    # In[3]:
-
-    total_gt_datums = 161
-
     totalEdge = len(rows)
-    intraEdge = len([row for row in rows if row['isIntra']])
-    interEdge = len([row for row in rows if not row['isIntra']])
+    intraEdge = len([row for row in rows if row['isIntra'] == 'true'])
+    interEdge = len([row for row in rows if not row['isIntra'] == 'true'])
 
     ch6_table_data = (            
         ('Total Datums', total_gt_datums, ''),
@@ -52,22 +43,25 @@ def do_ch6():
 
     t1 = matrix2latex.matrix2latex(
           ch6_table_data, 
-          filename='C:/work/docs/PHD_work/thesis/images/ch6_table_summary.tex',
+          filename='C:/work/docs/PHD_work/thesis/images/ch6_table_edge_summary.tex',
           caption='Summary of Phase B Annotations.',
           alignment='l r r')
     print t1
 
 
-    # In[4]:
 
-    x = [row['svmValue'] for row in rows if ((row['featureID'] == 'Friends_InCommon') and row['isIntra']) ]
-    y = [row['svmValue'] for row in rows if ((row['featureID'] == 'Friends_InCommon') and not (row['isIntra'])) ]
+    for featureID in set([row['featureID'] for row in rows]):
+        print ("Plotting feature value histogram for " + featureID);
+        # we skip the Kind_ features
+        if (featureID.startswith('Kind_')):
+            continue;
+        x = [row['svmValue'] for row in rows if ((row['featureID'] == featureID) and row['isIntra'] == 'true') ]
+        y = [row['svmValue'] for row in rows if ((row['featureID'] == featureID) and not (row['isIntra']) == 'true') ]
 
-    matplotlib.pyplot.hist(x, 100, range=(1.0), label='Intra-Event Edges', alpha=0.5)
-    matplotlib.pyplot.hist(y, 100, range=(1.0), label='Inter-Event Edges', alpha=0.5)
-    matplotlib.pyplot.legend(loc='upper right')
-    savefig("output/ch4_gen_freqGTevents.pdf", dpi=600, figsize=(8, 6))
-    savefig("output/ch4_gen_freqGTevents.eps", dpi=600, figsize=(8, 6))
-    matplotlib.pyplot.show()
-
-
+        matplotlib.pyplot.clf()
+        matplotlib.pyplot.hist(x, 100, range=(-1.0, 1.0), label='Intra-Event Edges', alpha=0.5)
+        matplotlib.pyplot.hist(y, 100, range=(-1.0, 1.0), label='Inter-Event Edges', alpha=0.5)
+        matplotlib.pyplot.legend(loc='upper right')
+        matplotlib.pyplot.savefig("../output/ch6_gen_features_"+featureID+".pdf", dpi=600, figsize=(8, 6))
+        #savefig("../output/ch6_gen_freqGTevents.eps", dpi=600, figsize=(8, 6))
+        #matplotlib.pyplot.savefig()

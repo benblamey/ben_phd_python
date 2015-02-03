@@ -2,16 +2,22 @@
 import random
 import csv
 from sets import Set
-import numpy
-
-
+import sys
+import pprint #pretty print nested structures
+from itertools import chain
 from collections import Counter
+
+import numpy
+import pymongo
+
+
 from matplotlib.pyplot import  *
 from matplotlib.ticker import FixedLocator
 
 
 #we want inline charts.
 #get_ipython().magic(u'matplotlib inline')
+sys.path.append('C:/work/code/3rd_Ben/matrix2latexPython/matrix2latex')
 import matrix2latex
 
 import matplotlib
@@ -29,6 +35,8 @@ import matplotlib
 #data_dir = 'C:/work/docs/Dropbox/PHD_DATA/'
 #data_dir = 'C:/work/data/output/2014-11-21/17.42.12_expset/PhaseAOnlyExperimentSet/'
 #data_dir = 'C:/work/docs/Dropbox/PHD_DATA/2014-11-29/17.33.55_expset_bing_crosby/Thesis_Experiment_Set/'
+#data_dir = 'C:/work/data/output/2014-11-21/17.42.12_expset/PhaseAOnlyExperimentSet/'
 data_dir = 'C:/work/docs/Dropbox/PHD_DATA/2015-02-01/19.36.38_expset_bing_crosby_normal/Full/'
 
-#data_dir = 'C:/work/data/output/2014-11-21/17.42.12_expset/PhaseAOnlyExperimentSet/'
+
+total_gt_datums = 161
