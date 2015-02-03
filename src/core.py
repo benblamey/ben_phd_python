@@ -39,4 +39,4 @@ import matplotlib
 data_dir = 'C:/work/docs/Dropbox/PHD_DATA/2015-02-01/19.36.38_expset_bing_crosby_normal/Full/'
 
 
-total_gt_datums = 161
+#total_gt_datums = 161

@@ -2,7 +2,7 @@ import core
 
 # Import Datum Types from CSV file 
 def do_descriptiveStats():
-
+    global total_gt_datums
     # See: ExportGroundTruthDatumEventTypes in Java.
 
 
@@ -83,8 +83,8 @@ def do_descriptiveStats():
                         users.count()) # no of users
                        ))
 
-    table_data.append(("Total datums in ground truth clusters", 
-                       len(list(chain.from_iterable(chain.from_iterable(data))))))
+    total_gt_datums = len(list(chain.from_iterable(chain.from_iterable(data))))
+    table_data.append(("Total datums in ground truth clusters", total_gt_datums)
 
     table_data.append(("Mean datums per cluster", 
                        "{:.2f}".format(
