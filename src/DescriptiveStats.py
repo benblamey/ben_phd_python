@@ -1,4 +1,4 @@
-import core
+from core import *
 
 # Import Datum Types from CSV file 
 def do_descriptiveStats():
@@ -9,6 +9,7 @@ def do_descriptiveStats():
     # a table of the different kinds of datums was exported to CSV (for all user lifestories)
     
     # { ID : datum-classname }
+    # all the datums -- not just the ground truth datums.
     datum_types = {}
 
     # Two strategies for life story selection:
@@ -20,7 +21,6 @@ def do_descriptiveStats():
          for row in spamreader:
             datum_types[row[0]] = row[1]
     print set(datum_types.values())
-
 
     pp = pprint.PrettyPrinter(indent=4)
 
@@ -83,8 +83,13 @@ def do_descriptiveStats():
                         users.count()) # no of users
                        ))
 
-    total_gt_datums = len(list(chain.from_iterable(chain.from_iterable(data))))
-    table_data.append(("Total datums in ground truth clusters", total_gt_datums)
+    total_gt_datums_calc = len(list(chain.from_iterable(chain.from_iterable(data))))
+    print "total_gt_datums: "
+    print total_gt_datums
+    print "total_gt_datums_calc: "
+    print total_gt_datums_calc
+    assert(total_gt_datums == total_gt_datums_calc)
+    table_data.append(("Total datums in ground truth clusters", total_gt_datums))
 
     table_data.append(("Mean datums per cluster", 
                        "{:.2f}".format(
@@ -144,9 +149,8 @@ def do_descriptiveStats():
     gca().get_xaxis().tick_bottom()
     gca().get_yaxis().tick_left()
 
-    savefig("output/ch4_gen_freqGTusers.png", dpi=600, figsize=(8, 6))
-    savefig("output/ch4_gen_freqGTusers.pdf", dpi=600, figsize=(8, 6))
-    show()
+    savefig(phd_output_dir+"ch4_gen_freqGTusers.png", dpi=600, figsize=(8, 6))
+    savefig(phd_output_dir+"ch4_gen_freqGTusers.pdf", dpi=600, figsize=(8, 6))
     #title("Frequency of Number of Ground Truth Event Clusters per User")
 
 
@@ -188,9 +192,8 @@ def do_descriptiveStats():
     gca().get_xaxis().tick_bottom()
     gca().get_yaxis().tick_left()
 
-    savefig("output/ch4_gen_freqGTevents.png", dpi=600, figsize=(8, 6))
-    savefig("output/ch4_gen_freqGTevents.pdf", dpi=600, figsize=(8, 6))
-    show()
+    savefig(phd_output_dir+"ch4_gen_freqGTevents.png", dpi=600, figsize=(8, 6))
+    savefig(phd_output_dir+"ch4_gen_freqGTevents.pdf", dpi=600, figsize=(8, 6))
     #title("Frequency of Number of Datums per Ground Truth Event Cluster")
 
 
@@ -238,7 +241,7 @@ def do_descriptiveStats():
 
     t = matrix2latex.matrix2latex(datum_type_table_data,
                                   headerRow = hr,
-                                  filename='output/ch4_table_gen_datums_by_type', 
+                                  filename=phd_output_dir+'ch4_table_gen_datums_by_type', 
                                   caption='Frequency of Datum by Type', 
                                   alignment='r r')
     print t
@@ -286,10 +289,8 @@ def do_descriptiveStats():
 
 
 
-    savefig("output/ch4_gen_GTtypepie.png", dpi=600, figsize=(8, 6))
-    savefig("output/ch4_gen_GTtypepie.pdf", dpi=600, figsize=(8, 6))
-
-    show()
+    savefig(phd_output_dir+"ch4_gen_GTtypepie.png", dpi=600, figsize=(8, 6))
+    savefig(phd_output_dir+"ch4_gen_GTtypepie.pdf", dpi=600, figsize=(8, 6))
 
 
     # In[9]:
@@ -310,7 +311,7 @@ def do_descriptiveStats():
 
     t = matrix2latex.matrix2latex(cluster_type_comp_table_data,
                                   headerRow = hr,
-                                  filename='output/ch4_table_gen_gt_comp_by_type', 
+                                  filename=phd_output_dir+'ch4_table_gen_gt_comp_by_type', 
                                   caption='Ground Truth Cluster Datums by Type', 
                                   alignment='r r r')
     print t
@@ -319,15 +320,9 @@ def do_descriptiveStats():
     # X-Type Matrix
     # ====
 
-    # In[10]:
-
     # Postive/Intra Cases
-
     cross_types_matrix = Counter()
-    inter_cross_types_matrix = Counter()
-
     all_types = Set()
-
     for user in data:
         for gtec in user:
             for x in gtec:
@@ -346,15 +341,19 @@ def do_descriptiveStats():
                     types = tuple(types)
                     cross_types_matrix[types] += 1
 
+    pp.pprint (cross_types_matrix)
+    print (all_types)
+
     # Negative/Inter Cases
+    inter_cross_types_matrix = Counter()
     for user in data:
-        for gtec in user:
-            for x in user:
-                if (gtec == x): # this works.
+        for cluster_x in user:
+            for cluster_y in user:
+                if (cluster_x == cluster_y): # this works.
                     continue
-                for x_datum in gtec:
+                for x_datum in cluster_x:
                     x_type = x_datum[1]
-                    for y_datum in x:
+                    for y_datum in cluster_y:
                         y_type = y_datum[1]
                         if (x_type > y_type):
                             continue
@@ -362,11 +361,6 @@ def do_descriptiveStats():
                         types.sort()
                         types = tuple(types)
                         inter_cross_types_matrix[types] += 1
-
-    pp.pprint (cross_types_matrix)
-    print (all_types)
-
-
 
     # In[12]:
 
@@ -393,7 +387,7 @@ def do_descriptiveStats():
         xtype_table_data.append(table_row)
 
     matrix2latex.matrix2latex(xtype_table_data, 
-                              filename="output/ch6_table_gen_intra_xtype_cluster", 
+                              filename=phd_output_dir+"ch6_table_gen_intra_xtype_cluster", 
                               caption="Intra-Cluster Datum Pairs by Type (Positive Cases).", 
                               alignment='r ' * len(header_row))
     pair_table_data.append(
@@ -412,7 +406,7 @@ def do_descriptiveStats():
         inter_xtype_table_data.append(table_row)
 
     matrix2latex.matrix2latex(inter_xtype_table_data, 
-                              filename="output/ch6_table_gen_inter_xtype_cluster", 
+                              filename=phd_output_dir+"ch6_table_gen_inter_xtype_cluster", 
                               caption="Inter-Cluster Datum Pairs by Type (Negative Cases).", 
                               alignment='r ' * len(header_row))
 
@@ -435,7 +429,7 @@ def do_descriptiveStats():
         inter_xtype_table_data.append(table_row)
 
     matrix2latex.matrix2latex(inter_xtype_table_data, 
-                              filename="output/ch6_table_gen_all_xtype_cluster", 
+                              filename=phd_output_dir+"ch6_table_gen_all_xtype_cluster", 
                               caption="Cluster Datum Pairs by Type (All Cases).", 
                               alignment='r ' * len(header_row))
 
@@ -450,14 +444,14 @@ def do_descriptiveStats():
 
     # In[13]:
 
-    t = matrix2latex.matrix2latex(table_data, filename="output/ch4_table_gen_gt_summary", caption="Summary of participants' ground truth data.", alignment='r r')
+    t = matrix2latex.matrix2latex(table_data, filename=phd_output_dir+"ch4_table_gen_gt_summary", caption="Summary of participants' ground truth data.", alignment='r r')
     print t
 
 
     # In[14]:
 
     t = matrix2latex.matrix2latex(pair_table_data, 
-                                  filename='output/ch6_table_pair_summary', 
+                                  filename=phd_output_dir+'ch6_table_pair_summary', 
                                   caption='Summary of Ground Truth Datum Pairs.', 
                                   alignment='r r')
     print t

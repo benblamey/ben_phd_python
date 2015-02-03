@@ -6,6 +6,7 @@ import sys
 import pprint #pretty print nested structures
 from itertools import chain
 from collections import Counter
+import json
 
 import numpy
 import pymongo
@@ -37,6 +38,11 @@ import matplotlib
 #data_dir = 'C:/work/docs/Dropbox/PHD_DATA/2014-11-29/17.33.55_expset_bing_crosby/Thesis_Experiment_Set/'
 #data_dir = 'C:/work/data/output/2014-11-21/17.42.12_expset/PhaseAOnlyExperimentSet/'
 data_dir = 'C:/work/docs/Dropbox/PHD_DATA/2015-02-01/19.36.38_expset_bing_crosby_normal/Full/'
+data_dir_experimentset = 'C:/work/docs/Dropbox/PHD_DATA/2015-02-01/19.36.38_expset_bing_crosby_normal/'
 
 
-#total_gt_datums = 161
+phd_output_dir = 'C:/work/docs/PHD_work/thesis/images/'
+
+
+total_gt_datums = 583 #using the mongo data from the laptop this seems to be the value.
+#161 #this is then asserted against the calculated value.

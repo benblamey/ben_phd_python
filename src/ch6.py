@@ -54,6 +54,7 @@ def do_ch6():
         print ("Plotting feature value histogram for " + featureID);
         # we skip the Kind_ features
         if (featureID.startswith('Kind_')):
+            print "...Skipping"
             continue;
         x = [row['svmValue'] for row in rows if ((row['featureID'] == featureID) and row['isIntra'] == 'true') ]
         y = [row['svmValue'] for row in rows if ((row['featureID'] == featureID) and not (row['isIntra']) == 'true') ]
@@ -62,6 +63,19 @@ def do_ch6():
         matplotlib.pyplot.hist(x, 100, range=(-1.0, 1.0), label='Intra-Event Edges', alpha=0.5)
         matplotlib.pyplot.hist(y, 100, range=(-1.0, 1.0), label='Inter-Event Edges', alpha=0.5)
         matplotlib.pyplot.legend(loc='upper right')
-        matplotlib.pyplot.savefig("../output/ch6_gen_features_"+featureID+".pdf", dpi=600, figsize=(8, 6))
+        matplotlib.pyplot.savefig("../output/ch6_gen_features_"+featureID+".png", dpi=600, figsize=(8, 6))
         #savefig("../output/ch6_gen_freqGTevents.eps", dpi=600, figsize=(8, 6))
         #matplotlib.pyplot.savefig()
+
+def do_ch6_b():
+    # This JSON file contains results about the performance of various experiments in the experiment set.
+    clusteringResultsJSON=open(data_dir+'../../clusteringResults.json')
+    clusteringResults = json.load(clusteringResultsJSON)
+    clusteringResultsJSON.close()
+    # Print a summary of the JSON in the file.
+    pprint.pprint(clusteringResults)
+    
+    for experiment in clusteringResults['exps']:
+        print experiment['name']
+        print experiment['results']['OnmiResults']['Output']['NMISum']
+    

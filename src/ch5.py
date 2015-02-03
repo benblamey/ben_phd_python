@@ -53,7 +53,7 @@ def do_ch5():
         )
         t1 = matrix2latex.matrix2latex(
            table_data, 
-          filename='C:/work/docs/PHD_work/thesis/images/ch5_table_annores_summary_'+annoKind,
+          filename=phd_output_dir+'ch5_table_annores_summary_'+annoKind,
           caption='Summary of '+annoKindLabels[annoKind]+' Annotations.',
           alignment='l r')
         print t1

@@ -1,0 +1,2 @@
+output directory is for testing and inspection of figures,tables and other output
+if decision is made to include in thesis, instead output to PHD_Work directory
