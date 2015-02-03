@@ -7,6 +7,8 @@ def do_descriptiveStats():
 
 
     # a table of the different kinds of datums was exported to CSV (for all user lifestories)
+    
+    # { ID : datum-classname }
     datum_types = {}
 
     # Two strategies for life story selection:
@@ -20,12 +22,7 @@ def do_descriptiveStats():
     print set(datum_types.values())
 
 
-    # In[3]:
-
-
-    
     pp = pprint.PrettyPrinter(indent=4)
-
 
     client = pymongo.MongoClient("localhost", 27017) # previously using 1234 for tunnel.
     users = client.SocialWorld.users
