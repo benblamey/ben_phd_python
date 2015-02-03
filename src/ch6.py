@@ -21,7 +21,9 @@ def do_ch6():
 
 
     newRows = []
-    rows = [ { headers[i] : row[i] for i in range(len(row)-1) } for row in rows]
+    rows = [ { headers[i] : row[i] 
+        for i in range(len(row)-1) } 
+        for row in rows]
     for row in rows:
         row['svmValue'] = float(row['svmValue'])
 
