@@ -9,14 +9,13 @@ def do_ch6():
 
     with open(data_dir + '/PhaseB_Pair_Annos.csv', 'rb') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=',')
-        first = True
         rows = [x for x in spamreader]
 
     #remove the header row
     rows.pop(0)
 
-    rows = [ { headers[i] : row[i] 
-        for i in range(len(row)-1) } 
+    rows = [ { headers[i] : (row[i] 
+        for i in range(len(row)-1)) } 
         for row in rows]
         
     for row in rows:
@@ -28,6 +27,8 @@ def do_ch6():
 
     print 'Example row:'
     print rows[0]
+
+    
 
 
     totalEdge = len(rows)

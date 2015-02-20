@@ -16,11 +16,14 @@ def do_descriptiveStats():
     #- Use the latest life story always - recommended for most things - maximizes Ground truth data which "exists" in the life stories (38 missing vs. 104)
     #- Use the life story which matches the gold gate doc -this is the only strategy suitable for gold labelling text eval. */
     with open(data_dir + 'DatumTypesForPython.csv', 'rb') as csvfile: # LATEST
-        #- these are slightly older and contain slightly more datums
+        #- these are slightly older and contain slightly more datums!!!!!!!!!!!!!
          spamreader = csv.reader(csvfile, delimiter=',')
          for row in spamreader:
             datum_types[row[0]] = row[1]
     print set(datum_types.values())
+    if (len(set(datum_types.values())) != total_gt_datums):
+        print "Number of GT datums in DatumTypesForPython.csv = " + len(set(datum_types.values())
+        raise Exception("gt datum count does not match")
 
     pp = pprint.PrettyPrinter(indent=4)
 

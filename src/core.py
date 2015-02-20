@@ -1,3 +1,4 @@
+from __future__ import division # use 3.x behaviour for division -- / for float, // for int.
 
 import random
 import csv
@@ -12,8 +13,15 @@ import numpy
 import pymongo
 
 
-from matplotlib.pyplot import  *
+from matplotlib.pyplot import *
 from matplotlib.ticker import FixedLocator
+import matplotlib
+# https://github.com/matplotlib/matplotlib/blob/master/extern/ttconv/ex
+# "RuntimeError: TrueType font file contains a very long PostScript name"
+# https://github.com/matplotlib/matplotlib/issues/3206
+#matplotlib.rcParams['font.family'] = 'serif'
+#matplotlib.rcParams['font.serif'] = 'CMU Serif, Times New Roman'
+
 
 
 #we want inline charts.
@@ -21,12 +29,6 @@ from matplotlib.ticker import FixedLocator
 sys.path.append('C:/work/code/3rd_Ben/matrix2latexPython/matrix2latex')
 import matrix2latex
 
-import matplotlib
-# https://github.com/matplotlib/matplotlib/blob/master/extern/ttconv/ex
-# "RuntimeError: TrueType font file contains a very long PostScript name"
-# https://github.com/matplotlib/matplotlib/issues/3206
-#matplotlib.rcParams['font.family'] = 'serif'
-#matplotlib.rcParams['font.serif'] = 'CMU Serif, Times New Roman'
 
 
 ####################################################
@@ -39,7 +41,7 @@ import matplotlib
 #data_dir = 'C:/work/data/output/2014-11-21/17.42.12_expset/PhaseAOnlyExperimentSet/'
 
 #data_dir = 'C:/work/docs/Dropbox/PHD_DATA/2015-02-01/19.36.38_expset_bing_crosby_normal/Full/'
-data_dir = 'C:/work/docs/Dropbox/PHD_DATA/2015-02-03/23.34.25_expset_bing_crosby_normal/Full/'
+data_dir = 'C:/work/data/output/PHD_DATA/PHD_DATA/2015-02-17/06.17.59_expset_bing_crosby_normal/Full/'
 
 
 
