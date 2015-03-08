@@ -3,7 +3,7 @@
 
 from __future__ import division # use 3.x behaviour for division -- / for float, // for int.
 
-print u'test-utf-café' #.encode('utf-8') # test unicode script encoding.
+print('test-utf:café') #.encode('utf-8') # test unicode script encoding.
 
 
 import random

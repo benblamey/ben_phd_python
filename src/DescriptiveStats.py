@@ -15,7 +15,7 @@ def do_descriptiveStats():
     # Two strategies for life story selection:
     #- Use the latest life story always - recommended for most things - maximizes Ground truth data which "exists" in the life stories (38 missing vs. 104)
     #- Use the life story which matches the gold gate doc -this is the only strategy suitable for gold labelling text eval. */
-    with open(data_dir + 'DatumTypesForPython.csv', 'rb') as csvfile: # LATEST
+    with open(data_dir + 'DatumTypesForPython.csv', 'r') as csvfile: # LATEST
         #- these are slightly older and contain slightly more datums!!!!!!!!!!!!!
          spamreader = csv.reader(csvfile, delimiter=',')
          for row in spamreader:
@@ -47,13 +47,11 @@ def do_descriptiveStats():
         if (user[u"FACEBOOK_USER_ID"] == u"100005149806497"):
             continue # Felix Smith
 
-        
-        fullname = unicode(user[u"FACEBOOK_FIRST_NAME"]) + unicode(user[u"FACEBOOK_LAST_NAME"])
-        print("fullname:" + fullname)
-
-
         if "GROUND_TRUTH_EVENTS" in user:
-            print(fullname)
+            
+            fullname = user[u"FACEBOOK_FIRST_NAME"] + user[u"FACEBOOK_LAST_NAME"]
+            print(("fullname:" + fullname).encode(sys.stdout.encoding, errors = 'replace'))
+
             usergts = user["GROUND_TRUTH_EVENTS"]
 
             data_user = []
@@ -71,7 +69,7 @@ def do_descriptiveStats():
                         datum_num_id = datum_num_id[3:]
 
                     # We exclude datums that are missing from the latest life story.
-                    if (datum_types.has_key(datum_num_id)):    
+                    if (datum_num_id in datum_types):    
                         datumtype = datum_types[datum_num_id]
                         data_user_datums.append((datum_num_id, datumtype))
                     else:
@@ -100,7 +98,7 @@ def do_descriptiveStats():
     print("total_gt_datums: ")
     print(total_gt_datums)
     print("total_gt_datums_calc: ")
-    print(total_gt_datums_calc # GT datums from MongoDB)
+    print(total_gt_datums_calc) # GT datums from MongoDB
     assert(total_gt_datums == total_gt_datums_calc)
     table_data.append(("Total datums in ground truth clusters", total_gt_datums))
 

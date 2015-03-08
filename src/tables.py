@@ -29,13 +29,13 @@ table_data.append(("...who created ground truth event clusters", havedonegroundt
 bins = []
 
 hist1 = numpy.histogram(gteventsizes, bins=(1,2,3,4,5)
-print hist1
+print(hist1)
 		
 t = foo.matrix2latex(table_data, filename="table", caption="Summary of participants' ground truth data.", alignment='|r|c|')
 
 
 
-print t
+print(t)
 
 
 

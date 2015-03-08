@@ -19,11 +19,11 @@ def do_ch5():
     annoKindFreqs = {}
 
     from collections import Counter
-    print Counter([x[IndexAnnoKind] for x in rows])
-    print Counter([x[IndexDataKind] for x in rows])
+    print(Counter([x[IndexAnnoKind] for x in rows]))
+    print(Counter([x[IndexDataKind] for x in rows]))
     #])
 
-    print len(rows)
+    print(len(rows))
 
     annoKindLabels = {
         "DateTime": "Temporal",
@@ -43,7 +43,7 @@ def do_ch5():
 
 
     for annoKind in ["DateTime", "ImageContent", "Location", "People", "SocialEvent", "UserStructure"]:
-        print annoKind
+        print(annoKind)
         table_data = (            
             ('Total Datums', total_gt_datums),
             ('Total '+annoKindLabels[annoKind]+' Annotations', len([ x[IndexDatumId] for x in rows if (x[IndexAnnoKind] == annoKind)])),
@@ -56,7 +56,7 @@ def do_ch5():
           filename=phd_output_dir+'ch5_table_annores_summary_'+annoKind,
           caption='Summary of '+annoKindLabels[annoKind]+' Annotations.',
           alignment='l r')
-        print t1
+        print(t1)
 
         # this one is just number of annotations, not number of datums -- basically demonstrates different;y heterogeneous nature of data
         hr = ['Datum Type','Text', 'Metadata', 'Image', 'Total Annotations'] 
@@ -94,5 +94,5 @@ def do_ch5():
             filename='C:/work/docs/PHD_work/thesis/images/ch5_table_annores_byType_'+annoKind,
             caption=annoKindLabels[annoKind] + ' Annotations by Source Data Kind and Datum Type.' ,
             alignment='l r r r r')
-        print t2
+        print(t2)
 

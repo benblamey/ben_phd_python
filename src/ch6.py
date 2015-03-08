@@ -25,8 +25,8 @@ def do_ch6():
     #for row in rows:
     #    row['isIntra'] = random.choice([True, False, False, False])
 
-    print 'Example row:'
-    print rows[0]
+    print('Example row:')
+    print(rows[0])
 
     
 
@@ -47,7 +47,7 @@ def do_ch6():
           filename='C:/work/docs/PHD_work/thesis/images/ch6_table_edge_summary.tex',
           caption='Summary of Phase B Annotations.',
           alignment='l r r')
-    print t1
+    print(t1)
 
 
 
@@ -55,7 +55,7 @@ def do_ch6():
         print ("Plotting feature value histogram for " + featureID);
         # we skip the Kind_ features
         if (featureID.startswith('Kind_')):
-            print "...Skipping"
+            print("...Skipping")
             continue;
         x = [row['svmValue'] for row in rows if ((row['featureID'] == featureID) and row['isIntra'] == 'true') ]
         y = [row['svmValue'] for row in rows if ((row['featureID'] == featureID) and not (row['isIntra']) == 'true') ]
