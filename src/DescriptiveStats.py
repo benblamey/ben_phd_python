@@ -20,10 +20,10 @@ def do_descriptiveStats():
          spamreader = csv.reader(csvfile, delimiter=',')
          for row in spamreader:
             datum_types[row[0]] = row[1]
-    print set(datum_types.values())
+    print(set(datum_types.values()))
     if (len(set(datum_types.keys())) != total_gt_datums):
-        print "Number of GT datums defined in core.py = " + str(total_gt_datums)
-        print "Number of GT datums in DatumTypesForPython.csv = " + str(len(set(datum_types.keys())))
+        print("Number of GT datums defined in core.py = " + str(total_gt_datums))
+        print("Number of GT datums in DatumTypesForPython.csv = " + str(len(set(datum_types.keys()))))
 #        raise Exception("gt datum count does not match")
 
     pp = pprint.PrettyPrinter(indent=4)
@@ -31,14 +31,14 @@ def do_descriptiveStats():
     client = pymongo.MongoClient("localhost", 27017) # previously using 1234 for tunnel.
     users = client.SocialWorld.users
 
-    print "number of users: " + str(users.count())
+    print("number of users: " + str(users.count()))
 
     data = []
     excluded_datums = 0
 
     for user in users.find():
         
-        print user["FACEBOOK_USER_ID"]
+        print(user["FACEBOOK_USER_ID"])
         
         if (user[u"FACEBOOK_USER_ID"] == u"16457018212"):
             continue # Unknown randomer
@@ -49,11 +49,11 @@ def do_descriptiveStats():
 
         
         fullname = unicode(user[u"FACEBOOK_FIRST_NAME"]) + unicode(user[u"FACEBOOK_LAST_NAME"])
-        print "fullname:" + fullname
+        print("fullname:" + fullname)
 
 
         if "GROUND_TRUTH_EVENTS" in user:
-            print fullname
+            print(fullname)
             usergts = user["GROUND_TRUTH_EVENTS"]
 
             data_user = []
@@ -97,10 +97,10 @@ def do_descriptiveStats():
                        ))
 
     total_gt_datums_calc = len(list(chain.from_iterable(chain.from_iterable(data))))
-    print "total_gt_datums: "
-    print total_gt_datums
-    print "total_gt_datums_calc: "
-    print total_gt_datums_calc # GT datums from MongoDB
+    print("total_gt_datums: ")
+    print(total_gt_datums)
+    print("total_gt_datums_calc: ")
+    print(total_gt_datums_calc # GT datums from MongoDB)
     assert(total_gt_datums == total_gt_datums_calc)
     table_data.append(("Total datums in ground truth clusters", total_gt_datums))
 
@@ -139,10 +139,10 @@ def do_descriptiveStats():
 
     xvalues = range(1,max(gteventsizes)+1)
     gt_events_per_user_graph_data = [0] * max(gteventsizes)
-    print xvalues
+    print(xvalues)
     for (x,f) in Counter(gteventsizes).items():
         gt_events_per_user_graph_data[x-1] = f
-    print gt_events_per_user_graph_data  
+    print(gt_events_per_user_graph_data  )
 
     width = 1
 
@@ -174,10 +174,10 @@ def do_descriptiveStats():
 
     xvalues = range(1,max(gtecsizes)+1)
     datums_per_event_cluster_graph_data = [0] * max(gtecsizes)
-    print xvalues
+    print(xvalues)
     for (x,f) in Counter(gtecsizes).items():
         datums_per_event_cluster_graph_data[x-1] = f
-    print datums_per_event_cluster_graph_data  
+    print(datums_per_event_cluster_graph_data  )
 
     #import numpy
     #xlocations = numpy.array(range(len(gteventsizes)))+0.5
@@ -257,7 +257,7 @@ def do_descriptiveStats():
                                   filename=phd_output_dir+'ch4_table_gen_datums_by_type', 
                                   caption='Frequency of Datum by Type', 
                                   alignment='r r')
-    print t
+    print(t)
 
 
     # In[7]:
@@ -286,7 +286,7 @@ def do_descriptiveStats():
 
 
 
-    print gt_cluster_type_counter.keys()
+    print(gt_cluster_type_counter.keys())
     label_list =  [pretty_labels[label] for label in gt_cluster_type_counter.keys()]
     x_list = gt_cluster_type_counter.values()
 
@@ -316,7 +316,7 @@ def do_descriptiveStats():
     cluster_type_comp_table_data = sorted(cluster_type_comp_table_data, key=lambda x: x[1], reverse=True) # %'s are strings! sort on col.2
 
     #cluster_type_comp_table_data.reverse()
-    print cluster_type_comp_table_data
+    print(cluster_type_comp_table_data)
 
     hr = ['Type(s) in Event Cluster','Frequency','']
 
@@ -327,7 +327,7 @@ def do_descriptiveStats():
                                   filename=phd_output_dir+'ch4_table_gen_gt_comp_by_type', 
                                   caption='Ground Truth Cluster Datums by Type', 
                                   alignment='r r r')
-    print t
+    print(t)
 
 
     # X-Type Matrix
@@ -355,7 +355,7 @@ def do_descriptiveStats():
                     cross_types_matrix[types] += 1
 
     pp.pprint (cross_types_matrix)
-    print (all_types)
+    print((all_types))
 
     # Negative/Inter Cases
     inter_cross_types_matrix = Counter()
@@ -458,7 +458,7 @@ def do_descriptiveStats():
     # In[13]:
 
     t = matrix2latex.matrix2latex(table_data, filename=phd_output_dir+"ch4_table_gen_gt_summary", caption="Summary of participants' ground truth data.", alignment='r r')
-    print t
+    print(t)
 
 
     # In[14]:
@@ -467,5 +467,5 @@ def do_descriptiveStats():
                                   filename=phd_output_dir+'ch6_table_pair_summary', 
                                   caption='Summary of Ground Truth Datum Pairs.', 
                                   alignment='r r')
-    print t
+    print(t)
 

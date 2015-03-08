@@ -30,7 +30,7 @@ def do_ch6_b():
     
     i = 0
     for experiment in clusteringResults['exps']: # for each experiment.
-        print experiment['name']
+        print(experiment['name'])
         
         # mean the NMISums across the users for each exp.
         nmisumsforexp_byuser = []
@@ -59,8 +59,8 @@ def do_ch6_b():
         exp_names.append(prettyExpNames[experiment['name']])
         i += 1
     
-    print nmisums
-    print exp_names
+    print(nmisums)
+    print(exp_names)
     
     
     hr = ['Strategy Set', 'Accuracy (Intra-Event Edges)', 'Accuracy (Inter-Event Edges)', 'Mean NMI']
