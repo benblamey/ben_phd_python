@@ -8,11 +8,11 @@ prettyExpNames = {
     'FriendsStrat_Only': 'Friends',
     'EventsStrat_Only': 'Events',
     'SpatialStrat_Only': 'Spatial',
-    'TemporalStrat_Only': 'Temporal',
+    'TemporalStrat_Only': 'Temporal (dist.)',
     'UserHelpStrat_Only': 'User Help',
     'SceneAStrat_Only': 'Scene',
     'KindStrat_Only': 'Kind',
-    'OldSkoolTempex': 'Temporal (old)',
+    'OldSkoolTempex': 'Temporal (trad.)',
 }
 
 def do_ch6_b():
@@ -29,38 +29,33 @@ def do_ch6_b():
     exp_names = []
     
     i = 0
-    for experiment in clusteringResults['exps']:
+    for experiment in clusteringResults['exps']: # for each experiment.
         print experiment['name']
         
-        # mean the NMISums
-        for nmiResultsForUser in experiment['results']['OnmiResults'].values():
-            nmisum = nmiResultsForUser['Output']['NMISum']
-            nmisums[i] = nmisum
-        nmisums[i] = numpy.mean(nmisum)
+        # mean the NMISums across the users for each exp.
+        nmisumsforexp_byuser = []
+        for nmiResultsForUser in experiment['results']['OnmiResults'].values(): # for each user.
+            nmisumsforexp_byuser.append(nmiResultsForUser['Output']['NMISum'])
+        nmisums[i] = numpy.mean(nmisumsforexp_byuser)
         
-        # mean the edge classification accs.
-        accIntras = []
-        accInters = []    
-        for pairResultsForUser in experiment['results']['PairwiseResults'].values():
-            # For each experiment:
-            #pprint.pprint(pairResultsForUser);
-            pairIntraCorrect = pairResultsForUser['pairIntraCorrect']
-            pairIntraIncorrect = pairResultsForUser['pairIntraIncorrect']
-            pairInterCorrect = pairResultsForUser['pairInterCorrect']
-            pairInterIncorrect = pairResultsForUser['pairInterIncorrect']
+        pairIntraCorrect = 0
+        pairIntraIncorrect = 0
+        pairInterCorrect = 0
+        pairInterIncorrect = 0
 
-            if (pairIntraCorrect + pairIntraIncorrect > 0):
-                accIntra = pairIntraCorrect  / (pairIntraCorrect + pairIntraIncorrect)
-                accIntras.append(accIntra)
-            
-            if (pairInterCorrect + pairInterIncorrect > 0):
-                accInter = pairInterCorrect  / (pairInterCorrect + pairInterIncorrect)
-                accInters.append(accInter)
+        for pairResultsForUser in experiment['results']['PairwiseResults'].values(): # for each user
+            # For each experiment:
+            pprint.pprint(pairResultsForUser);
+            pairIntraCorrect = pairIntraCorrect +       pairResultsForUser['pairIntraCorrect']
+            pairIntraIncorrect = pairIntraIncorrect +   pairResultsForUser['pairIntraIncorrect']
+            pairInterCorrect = pairInterCorrect +       pairResultsForUser['pairInterCorrect']
+            pairInterIncorrect = pairInterIncorrect +   pairResultsForUser['pairInterIncorrect']
             
             #f1 = 2 * prec * recall / (prec + recall)
-        accIntrasByExp[i] = numpy.mean(accIntras)
-        accIntersByExp[i] = numpy.mean(accInters)
+        accIntrasByExp[i] = pairIntraCorrect  / (pairIntraCorrect + pairIntraIncorrect)
+        accIntersByExp[i] = pairInterCorrect  / (pairInterCorrect + pairInterIncorrect)
         
+        # append the name of the experiment.
         exp_names.append(prettyExpNames[experiment['name']])
         i += 1
     
