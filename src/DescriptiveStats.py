@@ -21,8 +21,9 @@ def do_descriptiveStats():
          for row in spamreader:
             datum_types[row[0]] = row[1]
     print set(datum_types.values())
-    if (len(set(datum_types.values())) != total_gt_datums):
-        print "Number of GT datums in DatumTypesForPython.csv = " + str(len(set(datum_types.values())))
+    if (len(set(datum_types.keys())) != total_gt_datums):
+        print "Number of GT datums defined in core.py = " + str(total_gt_datums)
+        print "Number of GT datums in DatumTypesForPython.csv = " + str(len(set(datum_types.keys())))
         raise Exception("gt datum count does not match")
 
     pp = pprint.PrettyPrinter(indent=4)
