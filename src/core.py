@@ -1,8 +1,14 @@
+#!/usr/bin/python -tt
+# -*- coding: utf-8 -*-
+
 from __future__ import division # use 3.x behaviour for division -- / for float, // for int.
+
+print u'test-utf-café' #.encode('utf-8') # test unicode script encoding.
+
 
 import random
 import csv
-from sets import Set
+#from sets import Set
 import sys
 import pprint #pretty print nested structures
 from itertools import chain

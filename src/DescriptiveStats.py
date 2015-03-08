@@ -24,23 +24,32 @@ def do_descriptiveStats():
     if (len(set(datum_types.keys())) != total_gt_datums):
         print "Number of GT datums defined in core.py = " + str(total_gt_datums)
         print "Number of GT datums in DatumTypesForPython.csv = " + str(len(set(datum_types.keys())))
-        raise Exception("gt datum count does not match")
+#        raise Exception("gt datum count does not match")
 
     pp = pprint.PrettyPrinter(indent=4)
 
     client = pymongo.MongoClient("localhost", 27017) # previously using 1234 for tunnel.
     users = client.SocialWorld.users
 
+    print "number of users: " + str(users.count())
+
     data = []
     excluded_datums = 0
 
     for user in users.find():
-        fullname = unicode(user["FACEBOOK_FIRST_NAME"]) + unicode(user["FACEBOOK_LAST_NAME"])
-
-        if (user["FACEBOOK_USER_ID"] == "836555706"):
+        
+        print user["FACEBOOK_USER_ID"]
+        
+        if (user[u"FACEBOOK_USER_ID"] == u"16457018212"):
+            continue # Unknown randomer
+        if (user[u"FACEBOOK_USER_ID"] == u"836555706"):
             continue # Muhamed Mustafa
-        if (user["FACEBOOK_USER_ID"] == "100005149806497"):
+        if (user[u"FACEBOOK_USER_ID"] == u"100005149806497"):
             continue # Felix Smith
+
+        
+        fullname = unicode(user[u"FACEBOOK_FIRST_NAME"]) + unicode(user[u"FACEBOOK_LAST_NAME"])
+        print "fullname:" + fullname
 
 
         if "GROUND_TRUTH_EVENTS" in user:
@@ -91,7 +100,7 @@ def do_descriptiveStats():
     print "total_gt_datums: "
     print total_gt_datums
     print "total_gt_datums_calc: "
-    print total_gt_datums_calc
+    print total_gt_datums_calc # GT datums from MongoDB
     assert(total_gt_datums == total_gt_datums_calc)
     table_data.append(("Total datums in ground truth clusters", total_gt_datums))
 
