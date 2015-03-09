@@ -50,7 +50,7 @@ def do_descriptiveStats():
         if "GROUND_TRUTH_EVENTS" in user:
             
             fullname = user[u"FACEBOOK_FIRST_NAME"] + user[u"FACEBOOK_LAST_NAME"]
-            print(("fullname:" + fullname).encode(sys.stdout.encoding, errors = 'replace'))
+            print("fullname: " + fullname)  #.encode(sys.stdout.encoding, errors = 'replace'))
 
             usergts = user["GROUND_TRUTH_EVENTS"]
 

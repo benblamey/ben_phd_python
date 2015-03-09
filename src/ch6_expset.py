@@ -35,6 +35,7 @@ def do_ch6_b():
         # mean the NMISums across the users for each exp.
         nmisumsforexp_byuser = []
         for nmiResultsForUser in experiment['results']['OnmiResults'].values(): # for each user.
+            print nmiResultsForUser
             nmisumsforexp_byuser.append(nmiResultsForUser['Output']['NMISum'])
         nmisums[i] = numpy.mean(nmisumsforexp_byuser)
         

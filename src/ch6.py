@@ -14,8 +14,9 @@ def do_ch6():
     #remove the header row
     rows.pop(0)
 
-    rows = [ { headers[i] : (row[i] 
-        for i in range(len(row)-1)) } 
+    # don't try to fix the apparent syntax here by adding more parentheses -- it introduces a syntax error.
+    rows = [ { headers[i] : row[i] 
+        for i in range(len(row)-1) } 
         for row in rows]
         
     for row in rows:

@@ -8,7 +8,7 @@ print('test-utf:café') #.encode('utf-8') # test unicode script encoding.
 
 import random
 import csv
-#from sets import Set
+from sets import Set
 import sys
 import pprint #pretty print nested structures
 from itertools import chain
