@@ -3,16 +3,21 @@ from __future__ import division # use 3.x behaviour for division -- / for float,
 from core import *
 
 prettyExpNames = {
-    'Full': 'All',
+    'Full': 'All (Dist. Tempex.)',
+    'Full_ClassicTempex': 'All (Classic. Tempex.)',
+    
     'None': 'None',
+    
     'FriendsStrat_Only': 'Friends',
     'EventsStrat_Only': 'Events',
     'SpatialStrat_Only': 'Spatial',
     'TemporalStrat_Only': 'Temporal (dist.)',
     'UserHelpStrat_Only': 'User Help',
-    'SceneAStrat_Only': 'Scene',
+    'SceneStrat_Only': 'Scene',
     'KindStrat_Only': 'Kind',
     'OldSkoolTempex': 'Temporal (trad.)',
+    
+    'SceneAStrat_Only': 'Scene', # old typo.
 }
 
 def do_ch6_b():
@@ -36,7 +41,13 @@ def do_ch6_b():
         nmisumsforexp_byuser = []
         for nmiResultsForUser in experiment['results']['OnmiResults'].values(): # for each user.
             print nmiResultsForUser
-            nmisumsforexp_byuser.append(nmiResultsForUser['Output']['NMISum'])
+            nmiOutputForUser = nmiResultsForUser['Output']
+            if 'NMISum' in nmiOutputForUser:
+                nmisumsforexp_byuser.append(nmiOutputForUser['NMISum'])
+            else:
+                # In the case of a correct trivial mapping (1)->(1) -- the NMI tool returns "NaN".
+                # For consistency with other perfect scores, we simply use 1.
+                nmisumsforexp_byuser.append(1.0)
         nmisums[i] = numpy.mean(nmisumsforexp_byuser)
         
         pairIntraCorrect = 0
@@ -94,11 +105,18 @@ def do_ch6_b():
     #ax.set_xticks([0.15, 0.68, 0.97])
     #ax.set_yticks([0.2, 0.55, 0.76])
     #ax.set_xticklabels( exp_names )
+    
+    clf()
+    
+    print "nmisums: "
+    print nmisums.keys()
+    print nmisums.values()
     bar(nmisums.keys(), nmisums.values())
     xticks( 
         list(xtickloc + 0.5 for xtickloc in numpy.arange(len(nmisums))), 
         exp_names, 
         rotation=90 )    
+    tight_layout()
     savefig("C:/work/docs/PHD_Work/thesis/images/ch6_expset_nmisum.png", dpi=600, figsize=(8, 6))
     clf()
     
@@ -108,6 +126,7 @@ def do_ch6_b():
         list(xtickloc + 0.5 for xtickloc in numpy.arange(len(accIntrasByExp))), 
         exp_names, 
         rotation=90 )    
+    tight_layout()
     savefig("C:/work/docs/PHD_Work/thesis/images/ch6_expset_accIntrasByExp.png", dpi=600, figsize=(8, 6))
     clf()
     
@@ -116,6 +135,7 @@ def do_ch6_b():
         list(xtickloc + 0.5 for xtickloc in numpy.arange(len(accIntersByExp))), 
         exp_names, 
         rotation=90 )    
+    tight_layout()
     savefig("C:/work/docs/PHD_Work/thesis/images/ch6_expset_accIntersByExp.png", dpi=600, figsize=(8, 6))
     clf()
     

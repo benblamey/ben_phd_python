@@ -35,7 +35,8 @@ import matrix2latex
 ####################################################
 ############# data_dir needs a trailing slash! ################
 ####################################################
-data_dir = 'C:/work/data/output/PHD_DATA/2015-03-06/16.23.07_expset_bing_crosby_normal/Full/'
+data_dir = 'C:/work/data/output/PHD_DATA/2015-03-08/17.10.00_expset_bing_crosby_normal/Full/' ## LAST RUN -- NEW EDGE WEIGHTING
+#data_dir ='C:/work/data/output/PHD_DATA/2015-03-02/14.37.53_expset_bing_crosby_normal/Full/' ## LAST RUN WITH OLD EDGE WEIGHTING
 
 phd_output_dir = 'C:/work/docs/PHD_work/thesis/images/'
 
