@@ -61,10 +61,15 @@ def do_ch6():
         x = [row['svmValue'] for row in rows if ((row['featureID'] == featureID) and row['isIntra'] == 'true') ]
         y = [row['svmValue'] for row in rows if ((row['featureID'] == featureID) and not (row['isIntra']) == 'true') ]
 
+        xmin = -1.0
+        if featureID == 'Scene_ColorLayout':
+            xmin = 0
         matplotlib.pyplot.clf()
         matplotlib.pyplot.hist(x, 100, range=(-1.0, 1.0), label='Intra-Event Edges', alpha=0.5)
         matplotlib.pyplot.hist(y, 100, range=(-1.0, 1.0), label='Inter-Event Edges', alpha=0.5)
         matplotlib.pyplot.legend(loc='upper right')
+        #matplotlib.pyplot.ax.set_yscale('log')
+        matplotlib.pyplot.yscale('log', nonposy='clip')
         matplotlib.pyplot.savefig("../output/ch6_gen_features_"+featureID+".png", dpi=600, figsize=(8, 6))
         #savefig("../output/ch6_gen_freqGTevents.eps", dpi=600, figsize=(8, 6))
         #matplotlib.pyplot.savefig()
