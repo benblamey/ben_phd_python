@@ -189,13 +189,36 @@ def do_descriptiveStats():
     xminorformatter = FixedLocator([x - 0.5 for x in xlabels])
 
     #print xlocations
+    
+    #import matplotlib.font_manager as font_manager
+    #prop = font_manager.FontProperties(fname='C:/windows/fonts/cmunrm.ttf')
+    #mpl.rcParams['font.family'] = prop.get_name()
+    #font = {'family' : prop.get_name(),
+    #        #'weight' : 'bold',
+    #        #'size'   : 10
+    #        }
+    #rcParams['font.family'] = 'serif'
+    
+    #    font.cursive: [u'Apple Chancery', u'Textile', u'Zapf Chancery', u'Sand', u'cursive']
+    #font.family: [u'serif']
+    #font.fantasy: [u'Comic Sans MS', u'Chicago', u'Charcoal', u'ImpactWestern', u'fantasy']
+    #font.monospace: [u'Bitstream Vera Sans Mono', u'DejaVu Sans Mono', u'Andale Mono', u'Nimbus Mono L', u'Courier New', u'Courier', u'Fixed', u'Terminal', u'monospace']
+    #font.sans-serif: [u'Bitstream Vera Sans', u'DejaVu Sans', u'Lucida Grande', u'Verdana', u'Geneva', u'Lucid', u'Arial', u'Helvetica', u'Avant Garde', u'sans-serif']
+    #font.serif: [u'CMU Serif']
+    
+    
+    #rcParams['font.fantasy'] = prop.get_name()
+    #rcParams['font.monospace'] = prop.get_name()
+    #rcParams['font.sans-serif'] = prop.get_name()
+    #rcParams['font.serif'] = prop.get_name()
+    #print rcParams
 
     bar(xvalues, datums_per_event_cluster_graph_data, width=width, linewidth=1)
     yticks(range(0, max(datums_per_event_cluster_graph_data)+10, 10))
     xticks(xlabels_positions, xlabels)
     xlim(0, max(xlabels)+1)
 
-    xlabel("# Datums in Ground Truth Event Cluster")
+    xlabel("# Datums in Ground Truth Event Cluster")#, fontdict=font)
     ylabel("Frequency")
 
     # The function gca() returns the current axes - instance of http://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes
@@ -283,11 +306,11 @@ def do_descriptiveStats():
 
 
 
-
+    
     print(gt_cluster_type_counter.keys())
     label_list =  [pretty_labels[label] for label in gt_cluster_type_counter.keys()]
     x_list = gt_cluster_type_counter.values()
-
+    clf()
     axis("equal")
     pie(
     x_list,
@@ -300,7 +323,7 @@ def do_descriptiveStats():
 
 
 
-    savefig(phd_output_dir+"ch4_gen_GTtypepie.png", dpi=600, figsize=(8, 6))
+    #savefig(phd_output_dir+"ch4_gen_GTtypepie.png", dpi=600, figsize=(8, 6))
     savefig(phd_output_dir+"ch4_gen_GTtypepie.pdf", dpi=600, figsize=(8, 6))
 
 

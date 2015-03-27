@@ -43,11 +43,15 @@ def do_ch6_b():
             print nmiResultsForUser
             nmiOutputForUser = nmiResultsForUser['Output']
             if 'NMISum' in nmiOutputForUser:
-                nmisumsforexp_byuser.append(nmiOutputForUser['NMISum'])
+                nmisum = nmiOutputForUser['NMISum']
+                if nmisum == 'NAN': # In the case of a perfect match in the trivial case (A)->(A), Onmi returns NAN. We interpret this as 1.
+                    nmisum = 1
+                nmisumsforexp_byuser.append(nmisum)
             else:
                 # In the case of a correct trivial mapping (1)->(1) -- the NMI tool returns "NaN".
                 # For consistency with other perfect scores, we simply use 1.
                 nmisumsforexp_byuser.append(1.0)
+        print nmisumsforexp_byuser
         nmisums[i] = numpy.mean(nmisumsforexp_byuser)
         
         pairIntraCorrect = 0
@@ -82,9 +86,9 @@ def do_ch6_b():
     for experiment in clusteringResults['exps']:
         row = (
             exp_names[i],
-            accIntrasByExp[i],
-            accIntersByExp[i],
-            nmisums[i]
+            '%.2f' % accIntrasByExp[i],
+            '%.2f' % accIntersByExp[i],
+            '%.2f' % nmisums[i]
         )
         table_data.append(row)
         i += 1
