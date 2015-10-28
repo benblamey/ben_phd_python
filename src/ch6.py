@@ -46,7 +46,7 @@ def do_ch6():
     t1 = matrix2latex.matrix2latex(
           ch6_table_data, 
           filename='C:/work/docs/PHD_work/thesis/images/ch6_table_edge_summary.tex',
-          caption='Summary of Phase B Annotations.',
+          caption='Datum Edge Summary',
           alignment='l r r')
     print(t1)
 

@@ -3,8 +3,8 @@ from __future__ import division # use 3.x behaviour for division -- / for float,
 from core import *
 
 prettyExpNames = {
-    'Full': 'All (Dist. Tempex.)',
-    'Full_ClassicTempex': 'All (Classic. Tempex.)',
+     #'Full': 'All (Dist. Tempex.)',
+    'Full_ClassicTempex': 'All',
     
     'None': 'None',
     
@@ -36,6 +36,8 @@ def do_ch6_b():
     i = 0
     for experiment in clusteringResults['exps']: # for each experiment.
         print(experiment['name'])
+        if (experiment['name'] == 'Full'):
+            continue
         
         # mean the NMISums across the users for each exp.
         nmisumsforexp_byuser = []
@@ -83,9 +85,9 @@ def do_ch6_b():
     table_data = []
     
     i = 0
-    for experiment in clusteringResults['exps']:
+    for exp_name in exp_names:
         row = (
-            exp_names[i],
+            exp_name,
             '%.2f' % accIntrasByExp[i],
             '%.2f' % accIntersByExp[i],
             '%.2f' % nmisums[i]
