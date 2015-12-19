@@ -160,8 +160,8 @@ def do_descriptiveStats():
     gca().get_xaxis().tick_bottom()
     gca().get_yaxis().tick_left()
 
-    savefig(phd_output_dir+"ch4_gen_freqGTusers.png", dpi=600, figsize=(8, 6))
-    savefig(phd_output_dir+"ch4_gen_freqGTusers.pdf", dpi=600, figsize=(8, 6))
+    savefig(phd_output_dir+"ch5_gen_freqGTusers.png", dpi=600, figsize=(8, 6))
+    savefig(phd_output_dir+"ch5_gen_freqGTusers.pdf", dpi=600, figsize=(8, 6))
     #title("Frequency of Number of Ground Truth Event Clusters per User")
 
 
@@ -226,8 +226,8 @@ def do_descriptiveStats():
     gca().get_xaxis().tick_bottom()
     gca().get_yaxis().tick_left()
 
-    savefig(phd_output_dir+"ch4_gen_freqGTevents.png", dpi=600, figsize=(8, 6))
-    savefig(phd_output_dir+"ch4_gen_freqGTevents.pdf", dpi=600, figsize=(8, 6))
+    savefig(phd_output_dir+"ch5_gen_freqGTevents.png", dpi=600, figsize=(8, 6))
+    savefig(phd_output_dir+"ch5_gen_freqGTevents.pdf", dpi=600, figsize=(8, 6))
     #title("Frequency of Number of Datums per Ground Truth Event Cluster")
 
 
@@ -275,7 +275,7 @@ def do_descriptiveStats():
 
     t = matrix2latex.matrix2latex(datum_type_table_data,
                                   headerRow = hr,
-                                  filename=phd_output_dir+'ch4_table_gen_datums_by_type', 
+                                  filename=phd_output_dir+'ch5_table_gen_datums_by_type', 
                                   caption='Frequency of Datum by Type', 
                                   alignment='r r')
     print(t)
@@ -323,8 +323,8 @@ def do_descriptiveStats():
 
 
 
-    #savefig(phd_output_dir+"ch4_gen_GTtypepie.png", dpi=600, figsize=(8, 6))
-    savefig(phd_output_dir+"ch4_gen_GTtypepie.pdf", dpi=600, figsize=(8, 6))
+    #savefig(phd_output_dir+"ch5_gen_GTtypepie.png", dpi=600, figsize=(8, 6))
+    savefig(phd_output_dir+"ch5_gen_GTtypepie.pdf", dpi=600, figsize=(8, 6))
 
 
     # In[9]:
@@ -345,7 +345,7 @@ def do_descriptiveStats():
 
     t = matrix2latex.matrix2latex(cluster_type_comp_table_data,
                                   headerRow = hr,
-                                  filename=phd_output_dir+'ch4_table_gen_gt_comp_by_type', 
+                                  filename=phd_output_dir+'ch5_table_gen_gt_comp_by_type', 
                                   caption='Ground Truth Cluster Datums by Type', 
                                   alignment='r r r')
     print(t)
@@ -421,7 +421,7 @@ def do_descriptiveStats():
         xtype_table_data.append(table_row)
 
     matrix2latex.matrix2latex(xtype_table_data, 
-                              filename=phd_output_dir+"ch6_table_gen_intra_xtype_cluster", 
+                              filename=phd_output_dir+"ch7_table_gen_intra_xtype_cluster", 
                               caption="Intra-Cluster Datum Pairs by Type (Positive Cases).", 
                               alignment='r ' * len(header_row))
     pair_table_data.append(
@@ -440,7 +440,7 @@ def do_descriptiveStats():
         inter_xtype_table_data.append(table_row)
 
     matrix2latex.matrix2latex(inter_xtype_table_data, 
-                              filename=phd_output_dir+"ch6_table_gen_inter_xtype_cluster", 
+                              filename=phd_output_dir+"ch7_table_gen_inter_xtype_cluster", 
                               caption="Inter-Cluster Datum Pairs by Type (Negative Cases).", 
                               alignment='r ' * len(header_row))
 
@@ -463,7 +463,7 @@ def do_descriptiveStats():
         inter_xtype_table_data.append(table_row)
 
     matrix2latex.matrix2latex(inter_xtype_table_data, 
-                              filename=phd_output_dir+"ch6_table_gen_all_xtype_cluster", 
+                              filename=phd_output_dir+"ch7_table_gen_all_xtype_cluster", 
                               caption="Cluster Datum Pairs by Type (All Cases).", 
                               alignment='r ' * len(header_row))
 
@@ -478,14 +478,14 @@ def do_descriptiveStats():
 
     # In[13]:
 
-    t = matrix2latex.matrix2latex(table_data, filename=phd_output_dir+"ch4_table_gen_gt_summary", caption="Summary of participants' ground truth data.", alignment='r r')
+    t = matrix2latex.matrix2latex(table_data, filename=phd_output_dir+"ch5_table_gen_gt_summary", caption="Summary of participants' ground truth data.", alignment='r r')
     print(t)
 
 
     # In[14]:
 
     t = matrix2latex.matrix2latex(pair_table_data, 
-                                  filename=phd_output_dir+'ch6_table_pair_summary', 
+                                  filename=phd_output_dir+'ch7_table_pair_summary', 
                                   caption='Summary of Ground Truth Datum Pairs.', 
                                   alignment='r r')
     print(t)

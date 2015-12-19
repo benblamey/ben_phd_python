@@ -1,77 +1,98 @@
 from core import *
 
-headers = ['userId', 'isIntra', 'leftDatumID','rightDatumID','leftDataType','rightDataType','featureID','svmValue','message',]
-
 def do_ch6():
 
     # userID, datumID, kind, dataKind, dataType, originalText, Note, 
-    # userID, (isIntra),leftDatumID,rightDatumID,leftDataType,rightDataType,featureID,svmValue,message,
+    IndexUserId = 0
+    IndexDatumId = 1
+    IndexAnnoKind = 2
+    IndexDataKind = 3
+    IndexDatumType = 4
 
-    with open(data_dir + '/PhaseB_Pair_Annos.csv', 'rb') as csvfile:
+    with open(data_dir + 'PhaseA_Annos.csv', 'rb') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=',')
+        first = True
         rows = [x for x in spamreader]
 
-    #remove the header row
+    # remove the header row
     rows.pop(0)
+    annoKindFreqs = {}
 
-    # don't try to fix the apparent syntax here by adding more parentheses -- it introduces a syntax error.
-    rows = [ { headers[i] : row[i] 
-        for i in range(len(row)-1) } 
-        for row in rows]
-        
-    for row in rows:
-        row['svmValue'] = float(row['svmValue'])
+    from collections import Counter
+    print(Counter([x[IndexAnnoKind] for x in rows]))
+    print(Counter([x[IndexDataKind] for x in rows]))
+    #])
 
-    # for the time being, invent a intra-/not intra label.
-    #for row in rows:
-    #    row['isIntra'] = random.choice([True, False, False, False])
+    print(len(rows))
 
-    print('Example row:')
-    print(rows[0])
+    annoKindLabels = {
+        "DateTime": "Temporal",
+        "ImageContent": "Image Content",
+        "Location": "Location", 
+        "People": "People",
+        "SocialEvent": "Social Event",
+        "UserStructure": "User Structure"
+    }
 
-    
-
-
-    totalEdge = len(rows)
-    intraEdge = len([row for row in rows if row['isIntra'] == 'true'])
-    interEdge = len([row for row in rows if not row['isIntra'] == 'true'])
-
-    ch6_table_data = (            
-        ('Total Datums', total_gt_datums, ''),
-        ('Total Edges', totalEdge, '{:.2f}\%'.format(100.0) ),
-        ('Intra-Event Edges', intraEdge, '{:.2f}\\%'.format(100*float(intraEdge)/totalEdge) ),
-        ('Intra-Event Edges', interEdge, '{:.2f}\\%'.format(100*float(interEdge)/totalEdge) )
-    )
-
-    t1 = matrix2latex.matrix2latex(
-          ch6_table_data, 
-          filename='C:/work/docs/PHD_work/thesis/images/ch6_table_edge_summary.tex',
-          caption='Datum Edge Summary',
-          alignment='l r r')
-    print(t1)
+    pretty_labels = {
+        'benblamey.saesneg.model.datums.DatumPhoto': 'Photo',
+        'benblamey.saesneg.model.datums.DatumStatusMessage': 'Status Message',
+        'benblamey.saesneg.model.datums.DatumCheckin': 'Check-In',
+        'benblamey.saesneg.model.datums.DatumEvent': 'Facebook Event',
+    }
 
 
+    for annoKind in ["DateTime", "ImageContent", "Location", "People", "SocialEvent", "UserStructure"]:
+        print(annoKind)
+        table_data = (            
+            ('Total Datums', total_gt_datums),
+            ('Total '+annoKindLabels[annoKind]+' Annotations', len([ x[IndexDatumId] for x in rows if (x[IndexAnnoKind] == annoKind)])),
+            ('Datums with $\geq1$ annotation', len(Set([x[IndexDatumId] for x in rows if (x[IndexAnnoKind] == annoKind) ]) )),
+            ('Mean annotations / datum', "{0:.2f}".format(float(len([ x for x in rows if (x[IndexAnnoKind] == annoKind)]))
+                                                          /float(total_gt_datums) ) )
+        )
+        t1 = matrix2latex.matrix2latex(
+           table_data, 
+          filename=phd_output_dir+'ch6_table_annores_summary_'+annoKind,
+          caption='Summary of '+annoKindLabels[annoKind]+' Annotations.',
+          alignment='l r')
+        print(t1)
 
-    for featureID in set([row['featureID'] for row in rows]):
-        print ("Plotting feature value histogram for " + featureID);
-        # we skip the Kind_ features
-        if (featureID.startswith('Kind_')):
-            print("...Skipping")
-            continue;
-        x = [row['svmValue'] for row in rows if ((row['featureID'] == featureID) and row['isIntra'] == 'true') ]
-        y = [row['svmValue'] for row in rows if ((row['featureID'] == featureID) and not (row['isIntra']) == 'true') ]
+        # this one is just number of annotations, not number of datums -- basically demonstrates different;y heterogeneous nature of data
+        hr = ['Datum Type','Text', 'Metadata', 'Image', 'Total Annotations'] 
+        table_data2 = []
 
-        xmin = -1.0
-        if featureID == 'Scene_ColorLayout':
-            xmin = 0
-        matplotlib.pyplot.clf()
-        matplotlib.pyplot.hist(x, 100, range=(-1.0, 1.0), label='Intra-Event Edges', alpha=0.5)
-        matplotlib.pyplot.hist(y, 100, range=(-1.0, 1.0), label='Inter-Event Edges', alpha=0.5)
-        matplotlib.pyplot.legend(loc='upper right')
-        #matplotlib.pyplot.ax.set_yscale('log')
-        matplotlib.pyplot.yscale('log', nonposy='clip')
-        matplotlib.pyplot.savefig("../output/ch6_gen_features_"+featureID+".png", dpi=600, figsize=(8, 6))
-        #savefig("../output/ch6_gen_freqGTevents.eps", dpi=600, figsize=(8, 6))
-        #matplotlib.pyplot.savefig()
+        for datumType in pretty_labels.keys():
+            table_data2.append((
+                pretty_labels[datumType], 
+                len([ x[IndexDatumId] for x in rows if (x[IndexAnnoKind]==annoKind)
+                     and (x[IndexDatumType]==datumType) and (x[IndexDataKind] == "Text")]),
+                len([ x[IndexDatumId] for x in rows if (x[IndexAnnoKind] == annoKind)
+                     and (x[IndexDatumType]==datumType) and (x[IndexDataKind] == "Metadata")]),
+                len([ x[IndexDatumId] for x in rows if (x[IndexAnnoKind] == annoKind)
+                     and (x[IndexDatumType]==datumType) and (x[IndexDataKind] == "Image")]),
+                len([ x[IndexDatumId] for x in rows if (x[IndexAnnoKind] == annoKind)
+                     and (x[IndexDatumType]==datumType) ])
+            ))
 
-    
+        # now append the final row of totals    
+        table_data2.append((
+                'Total', 
+                len([ x[IndexDatumId] for x in rows if (x[IndexAnnoKind]==annoKind)
+                         and (x[IndexDataKind] == "Text")]),
+                len([ x[IndexDatumId] for x in rows if (x[IndexAnnoKind] == annoKind)
+                         and (x[IndexDataKind] == "Metadata")]),
+                len([ x[IndexDatumId] for x in rows if (x[IndexAnnoKind] == annoKind)
+                         and (x[IndexDataKind] == "Image")]),
+                len([ x[IndexDatumId] for x in rows if (x[IndexAnnoKind] == annoKind)])
+            ))
+
+
+        t2 = matrix2latex.matrix2latex(
+            table_data2, 
+            headerRow = hr,
+            filename='C:/work/docs/LATEX/thesis/images/ch6_table_annores_byType_'+annoKind,
+            caption=annoKindLabels[annoKind] + ' Annotations by Source Data Kind and Datum Type.' ,
+            alignment='l r r r r')
+        print(t2)
+

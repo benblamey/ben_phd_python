@@ -40,7 +40,7 @@ data_dir = "C:/work/data/output/PHD_DATA/2015-03-21/16.59.30_expset_bing_crosby_
 #data_dir ='C:/work/data/output/PHD_DATA/2015-03-02/14.37.53_expset_bing_crosby_normal/Full/' ## LAST RUN WITH OLD EDGE WEIGHTING
 
 
-phd_output_dir = 'C:/work/docs/PHD_work/thesis/images/'
+phd_output_dir = 'C:/work/docs/LATEX/thesis/images/'
 
 
 total_gt_datums = 583 #using the mongo data from the laptop this seems to be the value.

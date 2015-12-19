@@ -15,12 +15,12 @@ prettyExpNames = {
     'UserHelpStrat_Only': 'User Help',
     'SceneStrat_Only': 'Scene',
     'KindStrat_Only': 'Kind',
-    'OldSkoolTempex': 'Temporal (trad.)',
+    'OldSkoolTempex': 'Temporal',
     
     'SceneAStrat_Only': 'Scene', # old typo.
 }
 
-def do_ch6_b():
+def do_ch7_b():
     # This JSON file contains results about the performance of various experiments in the experiment set.
     clusteringResultsJSON=open(data_dir+'../clusteringResults.json')
     clusteringResults = json.load(clusteringResultsJSON)
@@ -37,6 +37,8 @@ def do_ch6_b():
     for experiment in clusteringResults['exps']: # for each experiment.
         print(experiment['name'])
         if (experiment['name'] == 'Full'):
+            continue
+        if (experiment['name'] == 'TemporalStrat_Only'): # Corrections -- exclude result for distributed tempex.
             continue
         
         # mean the NMISums across the users for each exp.
@@ -98,7 +100,7 @@ def do_ch6_b():
     tFoo = matrix2latex.matrix2latex(
         table_data, 
         headerRow = hr,
-        filename='C:/work/docs/PHD_Work/thesis/images/ch6_table_expset.tex',
+        filename='C:/work/docs/LATEX/thesis/images/ch7_table_expset.tex',
         caption='Performance According to Strategy Selection' ,
         alignment='l r r r r')
 
@@ -123,7 +125,7 @@ def do_ch6_b():
         exp_names, 
         rotation=90 )    
     tight_layout()
-    savefig("C:/work/docs/PHD_Work/thesis/images/ch6_expset_nmisum.png", dpi=600, figsize=(8, 6))
+    savefig("C:/work/docs/LATEX/thesis/images/ch7_expset_nmisum.png", dpi=600, figsize=(8, 6))
     clf()
     
     
@@ -133,7 +135,7 @@ def do_ch6_b():
         exp_names, 
         rotation=90 )    
     tight_layout()
-    savefig("C:/work/docs/PHD_Work/thesis/images/ch6_expset_accIntrasByExp.png", dpi=600, figsize=(8, 6))
+    savefig("C:/work/docs/LATEX/thesis/images/ch7_expset_accIntrasByExp.png", dpi=600, figsize=(8, 6))
     clf()
     
     bar(accIntersByExp.keys(), accIntersByExp.values())
@@ -142,7 +144,7 @@ def do_ch6_b():
         exp_names, 
         rotation=90 )    
     tight_layout()
-    savefig("C:/work/docs/PHD_Work/thesis/images/ch6_expset_accIntersByExp.png", dpi=600, figsize=(8, 6))
+    savefig("C:/work/docs/LATEX/thesis/images/ch7_expset_accIntersByExp.png", dpi=600, figsize=(8, 6))
     clf()
     
     
